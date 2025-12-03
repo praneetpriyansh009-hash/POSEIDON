@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 1. PERMISSIONS REQUIRED FOR POSEIDON -->
+    <!-- Required for the camera/vision pipeline -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Required for initial model download (even though inference is on-device) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Optional: If you want to prevent the device from sleeping during analysis -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- 2. CAMERA FEATURE DECLARATION -->
+    <!-- Declares that the app requires a camera to function -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <!-- The application block defines all the components -->
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.POSEIDON"> 
+        <!-- Note: We are using a theme that should be defined in res/values/themes.xml -->
+
+        <!-- 3. MAIN ACTIVITY DECLARATION -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            
+            <!-- Define this as the main entry point (launcher activity) -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!-- Optional: If needed for the SDK setup/components -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        
+    </application>
+</manifest>
